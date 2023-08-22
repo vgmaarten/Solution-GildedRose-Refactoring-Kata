@@ -10,25 +10,63 @@ class GildedRose {
         this.items = items;
     }
 
-    private static void updateItem(Item item) {
+    public void updateInventoryDaily() {
+        for (Item item : items) {
+            updateItem(item);
+        }
+    }
+
+    private void updateItem(Item item) {
         updateQuality(item);
         updateSellIn(item);
 
         if (isItemExpired(item)) {
-            handleExpired(item);
+            handleExpiredItem(item);
         }
     }
 
-    private static boolean isItemExpired(Item item) {
-        return item.sellIn < 0;
+    private void updateQuality(Item item) {
+        if (item.name.equals(SULFURAS)) {
+            return;
+        }
+
+        if (item.name.equals(AGED_BRIE)) {
+            if (item.quality < 50) {
+                item.quality++;
+            }
+        } else if (item.name.equals(BACKSTAGE_PASSES)) {
+            if (item.quality < 50) {
+                item.quality++;
+
+                if (item.sellIn < 11) {
+                    if (item.quality < 50) {
+                        item.quality++;
+                    }
+                }
+
+                if (item.sellIn < 6) {
+                    if (item.quality < 50) {
+                        item.quality++;
+                    }
+                }
+            }
+        } else if (item.quality > 0) {
+            item.quality--;
+        }
     }
 
-    private static void handleExpired(Item item) {
+    private void updateSellIn(Item item) {
+        if (!item.name.equals(SULFURAS)) {
+            item.sellIn = item.sellIn - 1;
+        }
+    }
+
+    private void handleExpiredItem(Item item) {
         if (!item.name.equals(AGED_BRIE)) {
             if (!item.name.equals(BACKSTAGE_PASSES)) {
                 if (item.quality > 0) {
                     if (!item.name.equals(SULFURAS)) {
-                        item.quality = item.quality - 1;
+                        item.quality--;
                     }
                 }
             } else {
@@ -36,48 +74,12 @@ class GildedRose {
             }
         } else {
             if (item.quality < 50) {
-                item.quality = item.quality + 1;
+                item.quality++;
             }
         }
     }
 
-    private static void updateSellIn(Item item) {
-        if (!item.name.equals(SULFURAS)) {
-            item.sellIn = item.sellIn - 1;
-        }
-    }
-
-    private static void updateQuality(Item item) {
-        if (!item.name.equals(AGED_BRIE) && !item.name.equals(BACKSTAGE_PASSES)) {
-            if (item.quality > 0) {
-                if (!item.name.equals(SULFURAS)) {
-                    item.quality = item.quality - 1;
-                }
-            }
-        } else {
-            if (item.quality < 50) {
-                item.quality = item.quality + 1;
-
-                if (item.name.equals(BACKSTAGE_PASSES)) {
-                    if (item.sellIn < 11) {
-                        if (item.quality < 50) {
-                            item.quality = item.quality + 1;
-                        }
-                    }
-
-                    if (item.sellIn < 6) {
-                        if (item.quality < 50) {
-                            item.quality = item.quality + 1;
-                        }
-                    }
-                }
-            }
-        }
-    }
-
-    public void updateInventoryDaily() {
-        for (Item item : items) {
-            updateItem(item);
-        }
+    private boolean isItemExpired(Item item) {
+        return item.sellIn < 0;
     }
 }

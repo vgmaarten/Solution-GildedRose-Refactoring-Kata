@@ -48,7 +48,7 @@ class GildedRoseTest {
     }
 
     @Test
-    void regular_item_quality_is_never_negative() {
+    void item_quality_is_never_negative() {
         Item[] items = new Item[]{new Item("regular item", 0, 0)};
         GildedRose app = new GildedRose(items);
 
