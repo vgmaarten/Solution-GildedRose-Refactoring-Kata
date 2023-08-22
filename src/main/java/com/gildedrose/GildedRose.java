@@ -31,51 +31,51 @@ class GildedRose {
         }
 
         if (item.name.equals(AGED_BRIE)) {
-            if (item.quality < 50) {
-                item.quality++;
-            }
+            increaseQuality(item);
         } else if (item.name.equals(BACKSTAGE_PASSES)) {
-            if (item.quality < 50) {
-                item.quality++;
+            increaseQuality(item);
 
-                if (item.sellIn < 11) {
-                    if (item.quality < 50) {
-                        item.quality++;
-                    }
-                }
-
-                if (item.sellIn < 6) {
-                    if (item.quality < 50) {
-                        item.quality++;
-                    }
-                }
+            if (item.sellIn < 11) {
+                increaseQuality(item);
             }
-        } else if (item.quality > 0) {
+
+            if (item.sellIn < 6) {
+                increaseQuality(item);
+            }
+        } else decreaseQuality(item);
+    }
+
+    private void updateSellIn(Item item) {
+        if (item.name.equals(SULFURAS)) {
+            return;
+        }
+
+        item.sellIn = item.sellIn - 1;
+    }
+
+    private void handleExpiredItem(Item item) {
+        if (item.name.equals(SULFURAS)) {
+            return;
+        }
+
+        if (item.name.equals(AGED_BRIE)) {
+            increaseQuality(item);
+        } else if (item.name.equals(BACKSTAGE_PASSES)) {
+            item.quality = 0;
+        } else {
+            decreaseQuality(item);
+        }
+    }
+
+    private void decreaseQuality(Item item) {
+        if (item.quality > 0) {
             item.quality--;
         }
     }
 
-    private void updateSellIn(Item item) {
-        if (!item.name.equals(SULFURAS)) {
-            item.sellIn = item.sellIn - 1;
-        }
-    }
-
-    private void handleExpiredItem(Item item) {
-        if (!item.name.equals(AGED_BRIE)) {
-            if (!item.name.equals(BACKSTAGE_PASSES)) {
-                if (item.quality > 0) {
-                    if (!item.name.equals(SULFURAS)) {
-                        item.quality--;
-                    }
-                }
-            } else {
-                item.quality = 0;
-            }
-        } else {
-            if (item.quality < 50) {
-                item.quality++;
-            }
+    private void increaseQuality(Item item) {
+        if (item.quality < 50) {
+            item.quality++;
         }
     }
 
