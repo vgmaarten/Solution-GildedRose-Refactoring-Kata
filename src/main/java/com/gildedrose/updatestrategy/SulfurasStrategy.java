@@ -15,7 +15,7 @@ public final class SulfurasStrategy extends StandardStrategy {
     }
 
     @Override
-    protected void handleExpiredItem() {
+    protected void handleExpired() {
         // Do nothing.
     }
 

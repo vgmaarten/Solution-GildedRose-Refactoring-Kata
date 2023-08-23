@@ -15,7 +15,7 @@ public final class AgedBrieStrategy extends StandardStrategy {
     }
 
     @Override
-    protected void handleExpiredItem() {
+    protected void handleExpired() {
         increaseQuality();
     }
 }

@@ -15,7 +15,7 @@ public class StandardStrategy {
         updateSellIn();
 
         if (isItemExpired()) {
-            handleExpiredItem();
+            handleExpired();
         }
     }
 
@@ -23,7 +23,7 @@ public class StandardStrategy {
         decreaseQuality();
     }
 
-    protected void handleExpiredItem() {
+    protected void handleExpired() {
         decreaseQuality();
     }
 
