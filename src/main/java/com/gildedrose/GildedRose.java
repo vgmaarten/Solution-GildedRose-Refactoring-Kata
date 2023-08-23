@@ -1,5 +1,7 @@
 package com.gildedrose;
 
+import com.gildedrose.updatestrategy.UpdateStrategyFactory;
+
 class GildedRose {
     Item[] items;
 
@@ -9,7 +11,7 @@ class GildedRose {
 
     public void updateInventoryDaily() {
         for (Item item : items) {
-            WrappedStandardItem.create(item).update();
+            UpdateStrategyFactory.create(item).doUpdate();
         }
     }
 }

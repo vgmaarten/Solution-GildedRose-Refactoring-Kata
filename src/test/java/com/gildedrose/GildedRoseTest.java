@@ -163,4 +163,15 @@ class GildedRoseTest {
         assertEquals(6, app.items[0].quality);
         assertEquals(-1, app.items[0].sellIn);
     }
+
+    @Test
+    void conjured_item_degradation_never_negative() {
+        Item[] items = new Item[]{new Item("Conjured Mana Cake", 4, 0)};
+        GildedRose app = new GildedRose(items);
+
+        app.updateInventoryDaily();
+
+        assertEquals(0, app.items[0].quality);
+        assertEquals(3, app.items[0].sellIn);
+    }
 }

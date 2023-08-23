@@ -1,34 +1,16 @@
-package com.gildedrose;
+package com.gildedrose.updatestrategy;
 
-public class WrappedStandardItem {
+import com.gildedrose.Item;
+
+public class StandardStrategy {
 
     protected final Item item;
 
-    public WrappedStandardItem(Item item) {
+    public StandardStrategy(Item item) {
         this.item = item;
     }
 
-    public static WrappedStandardItem create(Item item) {
-        if (item.name.equals(AgedBrie.NAME)) {
-            return new AgedBrie(item);
-        }
-
-        if (item.name.equals(BackstageConcertPass.NAME)) {
-            return new BackstageConcertPass(item);
-        }
-
-        if (item.name.equals(Sulfuras.NAME)) {
-            return new Sulfuras(item);
-        }
-
-        if (item.name.contains(Conjured.NAME)) {
-            return new Conjured(item);
-        }
-
-        return new WrappedStandardItem(item);
-    }
-
-    public void update() {
+    public void doUpdate() {
         updateQuality();
         updateSellIn();
 

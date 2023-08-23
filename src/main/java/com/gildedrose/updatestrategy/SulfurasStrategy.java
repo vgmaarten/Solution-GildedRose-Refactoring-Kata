@@ -1,9 +1,11 @@
-package com.gildedrose;
+package com.gildedrose.updatestrategy;
 
-public class Sulfuras extends WrappedStandardItem {
-    public static final String NAME = "Sulfuras, Hand of Ragnaros";
+import com.gildedrose.Item;
 
-    public Sulfuras(Item item) {
+public class SulfurasStrategy extends StandardStrategy {
+    public static final String ITEM_NAME = "Sulfuras, Hand of Ragnaros";
+
+    public SulfurasStrategy(Item item) {
         super(item);
     }
 

@@ -1,9 +1,11 @@
-package com.gildedrose;
+package com.gildedrose.updatestrategy;
 
-public class BackstageConcertPass extends WrappedStandardItem {
-    public static final String NAME = "Backstage passes to a TAFKAL80ETC concert";
+import com.gildedrose.Item;
 
-    public BackstageConcertPass(Item item) {
+public class BackstageConcertPassStrategy extends StandardStrategy {
+    public static final String ITEM_NAME = "Backstage passes to a TAFKAL80ETC concert";
+
+    public BackstageConcertPassStrategy(Item item) {
         super(item);
     }
 
