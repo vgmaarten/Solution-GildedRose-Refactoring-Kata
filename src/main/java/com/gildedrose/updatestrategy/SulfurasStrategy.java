@@ -2,7 +2,7 @@ package com.gildedrose.updatestrategy;
 
 import com.gildedrose.Item;
 
-public class SulfurasStrategy extends StandardStrategy {
+public final class SulfurasStrategy extends StandardStrategy {
     public static final String ITEM_NAME = "Sulfuras, Hand of Ragnaros";
 
     public SulfurasStrategy(Item item) {

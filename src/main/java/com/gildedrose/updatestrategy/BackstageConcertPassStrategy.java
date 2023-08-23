@@ -2,7 +2,7 @@ package com.gildedrose.updatestrategy;
 
 import com.gildedrose.Item;
 
-public class BackstageConcertPassStrategy extends StandardStrategy {
+public final class BackstageConcertPassStrategy extends StandardStrategy {
     public static final String ITEM_NAME = "Backstage passes to a TAFKAL80ETC concert";
 
     public BackstageConcertPassStrategy(Item item) {
