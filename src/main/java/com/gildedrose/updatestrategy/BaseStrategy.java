@@ -2,11 +2,10 @@ package com.gildedrose.updatestrategy;
 
 import com.gildedrose.Item;
 
-public class StandardStrategy {
-
+public abstract class BaseStrategy {
     protected final Item item;
 
-    public StandardStrategy(Item item) {
+    protected BaseStrategy(Item item) {
         this.item = item;
     }
 
@@ -18,18 +17,9 @@ public class StandardStrategy {
             handleExpired();
         }
     }
+    abstract void updateQuality();
 
-    protected void updateQuality() {
-        decreaseQuality();
-    }
-
-    protected void handleExpired() {
-        decreaseQuality();
-    }
-
-    protected void updateSellIn() {
-        item.sellIn--;
-    }
+    abstract void handleExpired();
 
     protected void increaseQuality() {
         if (item.quality < 50) {
@@ -37,13 +27,17 @@ public class StandardStrategy {
         }
     }
 
-    protected boolean isItemExpired() {
-        return item.sellIn < 0;
-    }
-
     protected void decreaseQuality() {
         if (item.quality > 0) {
             item.quality--;
         }
+    }
+
+    protected void updateSellIn() {
+        item.sellIn--;
+    }
+
+    private boolean isItemExpired() {
+        return item.sellIn < 0;
     }
 }

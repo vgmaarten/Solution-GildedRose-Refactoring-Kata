@@ -1,19 +1,26 @@
 package com.gildedrose;
 
+import com.gildedrose.updatestrategy.AgedBrieStrategy;
+import com.gildedrose.updatestrategy.BackstageConcertPassStrategy;
+import com.gildedrose.updatestrategy.ConjuredStrategy;
+import com.gildedrose.updatestrategy.SulfurasStrategy;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class GildedRoseTest {
 
+    private static final String REGULAR_ITEM_1 = "regular item 1";
+    private static final String REGULAR_ITEM_2 = "regular item 2";
+
     @Test
     void regular_item_decrease_sellin_date() {
-        Item[] items = new Item[]{new Item("regular item", 2, 3)};
+        Item[] items = new Item[]{new Item(REGULAR_ITEM_1, 2, 3)};
         GildedRose app = new GildedRose(items);
 
         app.updateInventoryDaily();
 
-        assertEquals("regular item", app.items[0].name);
+        assertEquals(REGULAR_ITEM_1, app.items[0].name);
         assertEquals(1, app.items[0].sellIn);
         assertEquals(2, app.items[0].quality);
     }
@@ -21,25 +28,25 @@ class GildedRoseTest {
     @Test
     void regular_item_degrading_quality() {
         Item[] items = new Item[]{
-            new Item("regular item 1", 2, 3),
-            new Item("regular item 2", 4, 5),
+            new Item(REGULAR_ITEM_1, 2, 3),
+            new Item(REGULAR_ITEM_2, 4, 5),
         };
         GildedRose app = new GildedRose(items);
 
         app.updateInventoryDaily();
 
-        assertEquals("regular item 1", app.items[0].name);
+        assertEquals(REGULAR_ITEM_1, app.items[0].name);
         assertEquals(1, app.items[0].sellIn);
         assertEquals(2, app.items[0].quality);
 
-        assertEquals("regular item 2", app.items[1].name);
+        assertEquals(REGULAR_ITEM_2, app.items[1].name);
         assertEquals(3, app.items[1].sellIn);
         assertEquals(4, app.items[1].quality);
     }
 
     @Test
     void regular_item_degrades_twice_as_fast_with_passed_sell_date() {
-        Item[] items = new Item[]{new Item("regular item", 0, 4)};
+        Item[] items = new Item[]{new Item(REGULAR_ITEM_1, 0, 4)};
         GildedRose app = new GildedRose(items);
 
         app.updateInventoryDaily();
@@ -49,7 +56,7 @@ class GildedRoseTest {
 
     @Test
     void item_quality_is_never_negative() {
-        Item[] items = new Item[]{new Item("regular item", 0, 0)};
+        Item[] items = new Item[]{new Item(REGULAR_ITEM_1, 0, 0)};
         GildedRose app = new GildedRose(items);
 
         app.updateInventoryDaily();
@@ -60,25 +67,25 @@ class GildedRoseTest {
     @Test
     void quality_is_always_max_50() {
         Item[] items = new Item[]{
-            new Item("Aged Brie", 3, 50),
-            new Item("Backstage passes to a TAFKAL80ETC concert", 3, 50)
+            new Item(AgedBrieStrategy.ITEM_NAME, 3, 50),
+            new Item(BackstageConcertPassStrategy.ITEM_NAME, 3, 50)
         };
         GildedRose app = new GildedRose(items);
 
         app.updateInventoryDaily();
 
-        assertEquals("Aged Brie", app.items[0].name);
+        assertEquals(AgedBrieStrategy.ITEM_NAME, app.items[0].name);
         assertEquals(50, app.items[0].quality);
         assertEquals(2, app.items[0].sellIn);
 
-        assertEquals("Backstage passes to a TAFKAL80ETC concert", app.items[1].name);
+        assertEquals(BackstageConcertPassStrategy.ITEM_NAME, app.items[1].name);
         assertEquals(50, app.items[1].quality);
         assertEquals(2, app.items[1].sellIn);
     }
 
     @Test
     void aged_brie_quality_increases() {
-        Item[] items = new Item[]{new Item("Aged Brie", 3, 0)};
+        Item[] items = new Item[]{new Item(AgedBrieStrategy.ITEM_NAME, 3, 0)};
         GildedRose app = new GildedRose(items);
 
         app.updateInventoryDaily();
@@ -89,7 +96,7 @@ class GildedRoseTest {
 
     @Test
     void sulfuras_never_decreases_in_quality_and_never_has_to_be_sold() {
-        Item[] items = new Item[]{new Item("Sulfuras, Hand of Ragnaros", 3, 80)};
+        Item[] items = new Item[]{new Item(SulfurasStrategy.ITEM_NAME, 3, 80)};
         GildedRose app = new GildedRose(items);
 
         app.updateInventoryDaily();
@@ -100,7 +107,7 @@ class GildedRoseTest {
 
     @Test
     void backstage_passes_quality_increases() {
-        Item[] items = new Item[]{new Item("Backstage passes to a TAFKAL80ETC concert", 15, 30)};
+        Item[] items = new Item[]{new Item(BackstageConcertPassStrategy.ITEM_NAME, 15, 30)};
         GildedRose app = new GildedRose(items);
 
         app.updateInventoryDaily();
@@ -111,7 +118,7 @@ class GildedRoseTest {
 
     @Test
     void backstage_passes_quality_increases_with_2_in_10_days() {
-        Item[] items = new Item[]{new Item("Backstage passes to a TAFKAL80ETC concert", 10, 30)};
+        Item[] items = new Item[]{new Item(BackstageConcertPassStrategy.ITEM_NAME, 10, 30)};
         GildedRose app = new GildedRose(items);
 
         app.updateInventoryDaily();
@@ -122,7 +129,7 @@ class GildedRoseTest {
 
     @Test
     void backstage_passes_quality_increases_with_3_in_5_days() {
-        Item[] items = new Item[]{new Item("Backstage passes to a TAFKAL80ETC concert", 5, 30)};
+        Item[] items = new Item[]{new Item(BackstageConcertPassStrategy.ITEM_NAME, 5, 30)};
         GildedRose app = new GildedRose(items);
 
         app.updateInventoryDaily();
@@ -133,7 +140,7 @@ class GildedRoseTest {
 
     @Test
     void backstage_passes_quality_is_0_after_concert() {
-        Item[] items = new Item[]{new Item("Backstage passes to a TAFKAL80ETC concert", 0, 30)};
+        Item[] items = new Item[]{new Item(BackstageConcertPassStrategy.ITEM_NAME, 0, 30)};
         GildedRose app = new GildedRose(items);
 
         app.updateInventoryDaily();
@@ -144,7 +151,7 @@ class GildedRoseTest {
 
     @Test
     void conjured_item_degradation_twice_as_fast_() {
-        Item[] items = new Item[]{new Item("Conjured Mana Cake", 10, 10)};
+        Item[] items = new Item[]{new Item(ConjuredStrategy.ITEM_NAME_PREFIX, 10, 10)};
         GildedRose app = new GildedRose(items);
 
         app.updateInventoryDaily();
@@ -155,7 +162,7 @@ class GildedRoseTest {
 
     @Test
     void conjured_item_degradation_after_expiration() {
-        Item[] items = new Item[]{new Item("Conjured Mana Cake", 0, 10)};
+        Item[] items = new Item[]{new Item(ConjuredStrategy.ITEM_NAME_PREFIX, 0, 10)};
         GildedRose app = new GildedRose(items);
 
         app.updateInventoryDaily();
@@ -166,7 +173,7 @@ class GildedRoseTest {
 
     @Test
     void conjured_item_degradation_never_negative() {
-        Item[] items = new Item[]{new Item("Conjured Mana Cake", 4, 0)};
+        Item[] items = new Item[]{new Item(ConjuredStrategy.ITEM_NAME_PREFIX, 4, 0)};
         GildedRose app = new GildedRose(items);
 
         app.updateInventoryDaily();

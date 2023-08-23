@@ -3,7 +3,7 @@ package com.gildedrose.updatestrategy;
 import com.gildedrose.Item;
 
 public final class UpdateStrategyFactory {
-    public static StandardStrategy create(Item item) {
+    public static BaseStrategy create(Item item) {
         if (item.name.contains(ConjuredStrategy.ITEM_NAME_PREFIX)) {
             return new ConjuredStrategy(item);
         }
@@ -16,7 +16,7 @@ public final class UpdateStrategyFactory {
             case SulfurasStrategy.ITEM_NAME:
                 return new SulfurasStrategy(item);
             default:
-                return new StandardStrategy(item);
+                return new DefaultStrategy(item);
         }
     }
 }
